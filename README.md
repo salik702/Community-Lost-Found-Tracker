@@ -11,7 +11,7 @@
 **A modern, professional platform to track, report, and recover lost items.**  
 *Built with premium UI/UX, real-time tracking, and robust data management.*
 
-[Request Feature](https://github.com/your-username/community-lost-found-tracker/issues) · [Report Bug](https://github.com/your-username/community-lost-found-tracker/issues)
+
 
 </div>
 
@@ -223,7 +223,7 @@ Distributed under the **MIT License**. See `LICENSE` for details.
 <div align="center">
 
 **Salik Ahmad**  
-Full Stack Developer
+Made With ❤️ By Salik Ahmad
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-Visit%20Site-blue?style=for-the-badge&logo=google-chrome)](https://salikahmad.vercel.app/)
 [![Email](https://img.shields.io/badge/Email-salikahmad702%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:salikahmad702@gmail.com)
