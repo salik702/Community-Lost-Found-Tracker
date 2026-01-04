@@ -3,6 +3,7 @@ import { ItemsGrid } from "@/components/items-grid"
 import { StatsSection } from "@/components/stats-section"
 import { ParticleBackground } from "@/components/particle-background"
 import { FloatingElements } from "@/components/floating-elements"
+import { SiteFooter } from "@/components/site-footer"
 
 export default function HomePage() {
   return (
@@ -13,6 +14,7 @@ export default function HomePage() {
         <HeroSection />
         <StatsSection />
         <ItemsGrid />
+        <SiteFooter />
       </div>
     </div>
   )
