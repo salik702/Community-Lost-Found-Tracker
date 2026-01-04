@@ -188,8 +188,8 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 
 **Author**: Salik Ahmad  
 **Email**: salikahmad702@gmail.com  
-**Project Link**: [https://github.com/your-username/community-lost-found-tracker](https://github.com/your-username/community-lost-found-tracker)
+**Author Website**: [https://salikahmad.vercel.app/](https://salikahmad.vercel.app/)
 
 ---
 
-<p align="center">Made with ❤️ for the Community</p>
+<p align="center">Made with ❤️ by Salik Ahmad</p>
