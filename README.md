@@ -222,8 +222,9 @@ Distributed under the **MIT License**. See `LICENSE` for details.
 
 <div align="center">
 
-**Salik Ahmad**  
-Made With ❤️ By Salik Ahmad
+<a href="https://salikahmad.vercel.app/">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&pause=1000&color=2196F3&center=true&vCenter=true&width=435&lines=Made+With+%E2%9D%A4%EF%B8%8F+By+Salik+Ahmad;Copyright+(c)+2026" alt="Typing SVG" />
+</a>
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-Visit%20Site-blue?style=for-the-badge&logo=google-chrome)](https://salikahmad.vercel.app/)
 [![Email](https://img.shields.io/badge/Email-salikahmad702%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:salikahmad702@gmail.com)
