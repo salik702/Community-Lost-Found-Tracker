@@ -1,21 +1,30 @@
 # 🌟 Community Lost & Found Tracker
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black?logo=next.js)
-![React](https://img.shields.io/badge/React-19.2.0-61DAFB?logo=react)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql)
-![Express](https://img.shields.io/badge/Express-5.2.1-000000?logo=express)
+<div align="center">
 
-A modern, professional, and visually stunning full-stack platform designed to help community members track, report, and recover lost, stolen, or found items. Built with a focus on premium user experience, real-time tracking, and robust data management.
+![License](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)
+![Next.js](https://img.shields.io/badge/Next.js-16.0.10-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=for-the-badge&logo=react)
+![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql)
+![Express](https://img.shields.io/badge/Express-5.2.1-000000?style=for-the-badge&logo=express)
+
+**A modern, professional platform to track, report, and recover lost items.**  
+*Built with premium UI/UX, real-time tracking, and robust data management.*
+
+[Request Feature](https://github.com/your-username/community-lost-found-tracker/issues) · [Report Bug](https://github.com/your-username/community-lost-found-tracker/issues)
+
+</div>
 
 ---
 
 ## 📖 Table of Contents
 - [✨ Key Features](#-key-features)
-- [🚀 Technologies Used](#-technologies-used)
+- [🚀 Tech Stack](#-tech-stack)
 - [🛠️ Installation](#️-installation)
-- [🗄️ MySQL Setup (Beginner Friendly)](#️-mysql-setup-beginner-friendly)
+- [🗄️ Database Setup](#️-database-setup)
 - [💻 Usage](#-usage)
+- [📡 API Reference](#-api-reference)
+- [🔧 Troubleshooting](#-troubleshooting)
 - [🏗️ Project Structure](#️-project-structure)
 - [🤝 Contributing](#-contributing)
 - [📄 License](#-license)
@@ -25,45 +34,42 @@ A modern, professional, and visually stunning full-stack platform designed to he
 
 ## ✨ Key Features
 
-- **🔍 Advanced Discovery**: Search and filter items by category, condition, status (Lost/Found/Stolen), and location.
-- **📝 Detailed Reporting**: Comprehensive forms for reporting items, including support for image uploads and priority levels.
-- **💬 Community Interaction**: Integrated commenting system for users to provide leads and communicate about specific items.
-- **⚡ Real-time Updates**: Instant tracking of item status changes and community feedback.
-- **🛡️ Admin Dashboard**: Powerful administrative tools for managing reports, users, and platform activity.
-- **🎨 Premium UI/UX**: Stunning aesthetics featuring:
+This application isn't just functional; it's designed to be **beautiful** and **intuitive**.
+
+- **🔍 Smart Discovery**: Filter by condition, status (Lost/Found/Stolen), location, and category.
+- **📝 Easy Reporting**: Detailed forms with image uploads, priority levels, and map integration.
+- **💬 Community Hub**: Comment system for leads and updates on items.
+- **⚡ Real-time**: Instant status updates and notifications.
+- **🛡️ Admin Panel**: Complete control over users, reports, and platform health.
+- **🎨 Premium UI/UX**:
   - ✨ Interactive Particle Backgrounds
-  - 🍱 Bento-style Layouts
-  - 🌑 Sleek Dark/Light Mode
-  - 📊 Dynamic Stats Visualizations
-  - 💫 Smooth Framer Motion Animations
+  - 🍱 Modern Bento-style Grids
+  - 🌑 Polished Dark/Light Modes
+  - 💫 Fluid Framer Motion Animations
 
 ---
 
-## 🚀 Technologies Used
+## 🚀 Tech Stack
 
 ### Frontend
-- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
-- **Library**: [React 19](https://react.dev/)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Components**: [Radix UI](https://www.radix-ui.com/) & [Lucide Icons](https://lucide.dev/)
-- **Forms**: React Hook Form & Zod
+![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js)
+![React](https://img.shields.io/badge/React-blue?style=flat-square&logo=react)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=flat-square&logo=framer)
+![Radix UI](https://img.shields.io/badge/Radix_UI-161618?style=flat-square)
 
 ### Backend
-- **Runtime**: [Node.js](https://nodejs.org/)
-- **Framework**: [Express.js](https://expressjs.com/)
-- **ORM**: [Sequelize](https://sequelize.org/)
-- **File Uploads**: Multer
-- **Authentication**: Bcrypt.js
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=nodedotjs)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=flat-square&logo=express)
+![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=flat-square&logo=sequelize)
+![Multer](https://img.shields.io/badge/Multer-F28D35?style=flat-square)
 
 ### Database
-- **Primary DB**: [MySQL 8.0](https://www.mysql.com/)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql)
 
 ---
 
 ## 🛠️ Installation
-
-Follow these steps to get the project running locally:
 
 1. **Clone the repository**:
    ```bash
@@ -71,125 +77,155 @@ Follow these steps to get the project running locally:
    cd community-lost-found-tracker
    ```
 
-2. **Install Dependencies**:
+2. **Navigate to Source**:
+   All code resides in the `main` directory.
+   ```bash
+   cd main
+   ```
+
+3. **Install Dependencies**:
    ```bash
    npm install
    ```
 
-3. **Environment Configuration**:
-   Open `config/database.js` and ensure the MySQL connection settings match your local environment:
+4. **Configure Environment**:
+   Update `config/database.js` with your MySQL credentials:
    ```javascript
    const sequelize = new Sequelize({
-     dialect: 'mysql',
      host: 'localhost',
-     port: 3306, // Default MySQL port
      username: 'your_username',
      password: 'your_password',
      database: 'CommunityTrackerDB',
-     logging: false,
+     dialect: 'mysql',
+     // ...
    });
    ```
 
 ---
 
-## 🗄️ MySQL Setup (Beginner Friendly)
-
-If you don't have MySQL installed or haven't set up a database like this before, follow these steps:
+## 🗄️ Database Setup
 
 ### 1. Install MySQL
-- **Windows**: Download and install [MySQL Installer](https://dev.mysql.com/downloads/installer/).
-- **macOS**: Use Homebrew: `brew install mysql`.
-- **Linux**: `sudo apt install mysql-server`.
+- **Windows**: [MySQL Installer](https://dev.mysql.com/downloads/installer/)
+- **macOS**: `brew install mysql`
+- **Linux**: `sudo apt install mysql-server`
 
-### 2. Access MySQL
-Open your terminal or **MySQL Command Line Client** and log in:
-```bash
-mysql -u root -p
-```
+### 2. Initialize Database
+You can set up the 15+ tables automatically using the provided script.
+Ensure you are in the `main` directory:
 
-### 3. Initialize the Database
-Once logged in, you can set up the project database in two ways:
-
-**Method A: Using the SQL Script (Recommended)**
-Run the following command in your terminal (not inside the MySQL prompt):
 ```bash
 mysql -u root -p < database_schema.sql
 ```
 
-**Method B: Manual Setup**
-Copy and paste the contents of `mysql_setup.sql` into your MySQL workbench/client. This will:
-1. Create the `CommunityTrackerDB` database.
-2. Create a default user `tracker_user` with password `tracker_password`.
-3. Set up all 15 necessary tables and relationships.
+Alternatively, copy the contents of `mysql_setup.sql` into your MySQL Workbench.
 
 ---
 
 ## 💻 Usage
 
-To run the application, you need to start **two** processes (Backend & Frontend):
-
-### 1. Start the Backend Server
-This handles database connections and API requests.
+### 1. Start Backend
+Handles API requests and database connections (Port 3001).
 ```bash
+# In terminal tab 1 (inside 'main' folder)
 node backend-server.js
 ```
-The backend will run on `http://localhost:3001`.
 
-### 2. Start the Frontend (Next.js)
-In a **new terminal tab**, run:
+### 2. Start Frontend
+The user interface (Port 3000).
 ```bash
+# In terminal tab 2 (inside 'main' folder)
 npm run dev
 ```
-The frontend will be available at `http://localhost:3000`.
 
-### 3. Access Admin Panel
-- Navigate to `/admin` on the website.
-- You can create an initial admin account by running:
-  ```bash
-  node create-admin.js
-  ```
+### 3. Admin Access
+Visit `http://localhost:3000/admin`.
+Create an initial admin user:
+```bash
+node create-admin.js
+```
+
+---
+
+## 📡 API Reference
+
+Here are the key endpoints available in the backend:
+
+### Items (`/api/items`)
+- `GET /` - List all items (supports filtering by status, limit).
+- `GET /:id` - Get details for a specific item.
+- `POST /` - Report a new missing/found item (requires form-data).
+- `PUT /:id` - Update item status or details.
+- `DELETE /:id` - Remove an item entry.
+- `POST /:id/contact` - Send an email alert to the item reporter.
+
+### Comments (`/api/comments`)
+- `GET /:itemId/comments` - Get discussion for an item.
+- `POST /` - Add a comment to an item.
+
+---
+
+## 🔧 Troubleshooting
+
+**Common Issues:**
+
+1. **"Invalid time value" Error**:
+   - This usually happens if the date format in the database is incompatible. Ensure your columns use the `DATETIME` type and the backend is passing valid JS `Date` objects.
+
+2. **Database Connection Refused**:
+   - Check if your MySQL server is running.
+   - Verify credentials in `config/database.js`.
+   - Ensure port 3306 is open.
+
+3. **Images Not Loading**:
+   - Ensure the `uploads/` directory exists in `main/`.
+   - The backend serves static files from `/uploads`.
 
 ---
 
 ## 🏗️ Project Structure
 
 ```text
-├── app/                  # Next.js Pages & Layouts
-├── components/           # Reusable UI Components
-├── config/               # DB & System Configurations
-├── models/               # Sequelize Data Models
-├── routes/               # Express API Endpoints
-├── public/               # Static Assets & Image Uploads
-├── database_schema.sql  # Full DB Schema (17 Tables)
-├── mysql_setup.sql      # Quick User & DB Setup Script
-└── backend-server.js     # Express App Entry Point
+├── main/                 
+│   ├── app/              # Next.js App Router (Frontend)
+│   ├── components/       # Radix UI & Custom Components
+│   ├── config/           # Database Config
+│   ├── models/           # Sequelize Models (User, Item, etc.)
+│   ├── routes/           # Express Routes (API Logic)
+│   ├── public/           # Assets
+│   ├── backend-server.js # Entry Point
+│   └── ...
+├── LICENSE
+└── README.md
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions make the community better!
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+We welcome contributions!
+1. Fork the repo.
+2. Create a feature branch: `git checkout -b feature/CoolFeature`
+3. Commit changes: `git commit -m 'Add CoolFeature'`
+4. Push to branch: `git push origin feature/CoolFeature`
+5. Open a Pull Request.
 
 ---
 
 ## 📄 License
 
-Distributed under the **MIT License**. See `LICENSE` for more information.
+Distributed under the **MIT License**. See `LICENSE` for details.
 
 ---
 
 ## 📧 Contact
 
-**Author**: Salik Ahmad  
-**Email**: salikahmad702@gmail.com  
-**Author Website**: [https://salikahmad.vercel.app/](https://salikahmad.vercel.app/)
+<div align="center">
 
----
+**Salik Ahmad**  
+Full Stack Developer
 
-<p align="center">Made with ❤️ by Salik Ahmad</p>
+[![Portfolio](https://img.shields.io/badge/Portfolio-Visit%20Site-blue?style=for-the-badge&logo=google-chrome)](https://salikahmad.vercel.app/)
+[![Email](https://img.shields.io/badge/Email-salikahmad702%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:salikahmad702@gmail.com)
+
+</div>
