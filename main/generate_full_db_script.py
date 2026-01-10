@@ -8,13 +8,11 @@ NUM_ITEMS = 800  # Will result in some lost, some found, some stolen
 NUM_REPORTS = 300
 NUM_ALERTS = 200
 NUM_COMMENTS = 200
-# Use absolute path for output to avoid confusion
-OUTPUT_FILE = r"c:\Users\salik\OneDrive\Desktop\Sem\Sem 4\Projects\DB LAB Project\database\CommunityTrackerDB.sql"
+NUM_MATCHES = 50
+NUM_LOGS = 100
 
-# Ensure directory exists
-os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+OUTPUT_FILE = os.path.join(os.getcwd(), "CommunityTrackerDB_Full.sql")
 
-# --- Data Sources (India & Pakistan context) ---
 FIRST_NAMES = [
     "Aarav", "Vihaan", "Aditya", "Sai", "Arjun", "Reyansh", "Muhammad", "Omar", "Ali", "Hassan",
     "Ahmed", "Bilal", "Usman", "Hamza", "Fatima", "Aisha", "Zainab", "Maryam", "Zara", "Priya",
@@ -55,17 +53,9 @@ def escape_sql(val):
 
 # --- SQL Components ---
 
-HEADER_SQL = """-- Community Lost & Stolen Items Tracker Database
--- Generated Script
--- Context: India & Pakistan
-
--- Target existing database
+HEADER_SQL = """CREATE DATABASE IF NOT EXISTS CommunityTrackerDB;
 USE CommunityTrackerDB;
-
--- Disable FK checks to allow dropping tables out of order
 SET FOREIGN_KEY_CHECKS = 0;
-
--- Drop existing tables to start fresh
 DROP TABLE IF EXISTS matches;
 DROP TABLE IF EXISTS reports;
 DROP TABLE IF EXISTS alerts;
@@ -81,33 +71,26 @@ DROP TABLE IF EXISTS itemcategories;
 DROP TABLE IF EXISTS itemconditions;
 DROP TABLE IF EXISTS itempriorities;
 DROP TABLE IF EXISTS recoverymethods;
-DROP TABLE IF EXISTS categories; -- Drop old schema tables if any
-DROP TABLE IF EXISTS conditions; -- Drop old schema tables if any
-
--- Views
+DROP TABLE IF EXISTS categories;
+DROP TABLE IF EXISTS conditions;
 DROP VIEW IF EXISTS LostItemsView;
 DROP VIEW IF EXISTS FoundItemsView;
 DROP VIEW IF EXISTS MatchSummaryView;
-
--- Procedures (Drop if exists)
 DROP PROCEDURE IF EXISTS CreateUser;
 DROP PROCEDURE IF EXISTS ReportItem;
 """
 
 TABLES_SQL = """
--- 1. Locations
 CREATE TABLE Locations (
     LocationID INT AUTO_INCREMENT PRIMARY KEY,
     LocationName VARCHAR(100) NOT NULL
 );
 
--- 2. UserRoles
 CREATE TABLE UserRoles (
     RoleID INT AUTO_INCREMENT PRIMARY KEY,
     RoleName VARCHAR(50) NOT NULL UNIQUE
 );
 
--- 3. Users
 CREATE TABLE Users (
     UserID INT AUTO_INCREMENT PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
@@ -119,25 +102,21 @@ CREATE TABLE Users (
     FOREIGN KEY (RoleID) REFERENCES UserRoles(RoleID)
 );
 
--- 4. ItemCategories
 CREATE TABLE ItemCategories (
     CategoryID INT AUTO_INCREMENT PRIMARY KEY,
     CategoryName VARCHAR(50) NOT NULL UNIQUE
 );
 
--- 5. ItemConditions
 CREATE TABLE ItemConditions (
     ConditionID INT AUTO_INCREMENT PRIMARY KEY,
     ConditionName VARCHAR(50) NOT NULL UNIQUE
 );
 
--- 6. ItemPriorities
 CREATE TABLE ItemPriorities (
     PriorityID INT AUTO_INCREMENT PRIMARY KEY,
     PriorityLevel VARCHAR(50) NOT NULL UNIQUE
 );
 
--- 7. Items
 CREATE TABLE Items (
     ItemID INT AUTO_INCREMENT PRIMARY KEY,
     ItemName VARCHAR(100) NOT NULL,
@@ -146,7 +125,7 @@ CREATE TABLE Items (
     CategoryID INT NOT NULL,
     ConditionID INT,
     PriorityID INT,
-    LocationFoundOrLost INT, -- Linked to Locations table
+    LocationFoundOrLost INT, 
     Status ENUM('Lost', 'Found', 'Stolen', 'Recovered') NOT NULL,
     DateReported DATETIME DEFAULT CURRENT_TIMESTAMP,
     ImageURL TEXT,
@@ -157,7 +136,6 @@ CREATE TABLE Items (
     FOREIGN KEY (LocationFoundOrLost) REFERENCES Locations(LocationID)
 );
 
--- 8. Matches
 CREATE TABLE Matches (
     MatchID INT AUTO_INCREMENT PRIMARY KEY,
     LostItemID INT NOT NULL,
@@ -168,7 +146,6 @@ CREATE TABLE Matches (
     FOREIGN KEY (FoundItemID) REFERENCES Items(ItemID)
 );
 
--- 9. Reports
 CREATE TABLE Reports (
     ReportID INT AUTO_INCREMENT PRIMARY KEY,
     ItemID INT NOT NULL,
@@ -179,13 +156,11 @@ CREATE TABLE Reports (
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
--- 10. RecoveryMethods
 CREATE TABLE RecoveryMethods (
     MethodID INT AUTO_INCREMENT PRIMARY KEY,
     MethodName VARCHAR(100) NOT NULL
 );
 
--- 11. Alerts
 CREATE TABLE Alerts (
     AlertID INT AUTO_INCREMENT PRIMARY KEY,
     ItemID INT,
@@ -198,7 +173,6 @@ CREATE TABLE Alerts (
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
--- 12. Comments
 CREATE TABLE Comments (
     CommentID INT AUTO_INCREMENT PRIMARY KEY,
     ItemID INT NOT NULL,
@@ -209,7 +183,6 @@ CREATE TABLE Comments (
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
--- 13. ItemTags
 CREATE TABLE ItemTags (
     TagID INT AUTO_INCREMENT PRIMARY KEY,
     ItemID INT NOT NULL,
@@ -217,7 +190,6 @@ CREATE TABLE ItemTags (
     FOREIGN KEY (ItemID) REFERENCES Items(ItemID)
 );
 
--- 14. UserActivityLogs
 CREATE TABLE UserActivityLogs (
     LogID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT NOT NULL,
@@ -227,7 +199,6 @@ CREATE TABLE UserActivityLogs (
     FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 
--- 15. NotificationSettings
 CREATE TABLE NotificationSettings (
     SettingID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT NOT NULL,
@@ -259,8 +230,6 @@ NUM_LOCATIONS = len(location_values)
 
 # --- VIEWS, PROCEDURES, TRIGGERS ---
 LOGIC_SQL = """
--- Views
-
 CREATE VIEW LostItemsView AS
 SELECT i.ItemID, i.ItemName, i.Description, c.CategoryName, l.LocationName, i.DateReported, u.Name as UsersName
 FROM Items i
@@ -284,8 +253,6 @@ FROM Matches m
 JOIN Items l ON m.LostItemID = l.ItemID
 JOIN Items f ON m.FoundItemID = f.ItemID
 JOIN Locations loc ON l.LocationFoundOrLost = loc.LocationID; 
-
--- Procedures
 
 DELIMITER //
 
@@ -314,19 +281,13 @@ BEGIN
     VALUES (p_ItemName, p_Description, p_UserID, p_CategoryID, p_LocationID, p_Status, NOW());
 END //
 
--- Triggers
-
 CREATE TRIGGER AfterItemInsert
 AFTER INSERT ON Items
 FOR EACH ROW
 BEGIN
-    -- Log Activity
     INSERT INTO UserActivityLogs (UserID, ActionType, Description, ActionDate)
     VALUES (NEW.UserID, 'Reported Item', CONCAT('User reported item: ', NEW.ItemName, ' as ', NEW.Status), NOW());
 
-    -- Simple Auto-Match Logic
-    -- Should only run if logic permits (e.g. not typically done on bulk insert in scripts, but requested)
-    -- WARNING: In bulk inserts, triggers can be slow. But for 1000 items it's fine.
     
     IF NEW.Status = 'Found' THEN
         INSERT INTO Matches (LostItemID, FoundItemID, MatchDate, Status)
@@ -357,11 +318,9 @@ BEGIN
     SELECT UserID INTO lostUser FROM Items WHERE ItemID = NEW.LostItemID;
     SELECT UserID INTO foundUser FROM Items WHERE ItemID = NEW.FoundItemID;
 
-    -- Alert Lost Item Owner
     INSERT INTO Alerts (ItemID, UserID, AlertType, Message, AlertDate)
     VALUES (NEW.LostItemID, lostUser, 'Match Found', 'A potential match has been found for your lost item!', NOW());
     
-    -- Alert Found Item Reporter
     INSERT INTO Alerts (ItemID, UserID, AlertType, Message, AlertDate)
     VALUES (NEW.FoundItemID, foundUser, 'Match Found', 'The item you found matches a lost report!', NOW());
 END //
@@ -374,14 +333,23 @@ DELIMITER ;
 def generate_users_sql():
     sql = "INSERT INTO Users (Name, Contact, Location, RoleID, Email) VALUES \n"
     values = []
-    # Make sure we have unique emails
+    generated_emails = set()
+    
     for i in range(NUM_USERS):
         fname = random.choice(FIRST_NAMES)
         lname = random.choice(LAST_NAMES)
         name = f"{fname} {lname}"
         contact = f"+91-{random.randint(7000000000, 9999999999)}" if random.random() > 0.5 else f"+92-{random.randint(3000000000, 3999999999)}"
         city = random.choice(CITIES)
-        email = f"{fname.lower()}.{lname.lower()}{i}@example.com"
+        
+        # Ensure unique email
+        while True:
+            number = random.randint(1, 9999) # Increased range to avoid collisions
+            email = f"{fname.lower()}{lname.lower()}{number}@gmail.com"
+            if email not in generated_emails:
+                generated_emails.add(email)
+                break
+        
         role = 1 if i < 5 else 3 # First 5 admins, rest regular
         values.append(f"({escape_sql(name)}, {escape_sql(contact)}, {escape_sql(city)}, {role}, {escape_sql(email)})")
     return sql + ",\n".join(values) + ";"
@@ -429,6 +397,54 @@ def generate_notification_settings_sql():
         values.append(f"({i}, 1, {random.randint(0,1)}, 1)")
     return sql + ",\n".join(values) + ";"
 
+def generate_matches_sql():
+    sql = "INSERT INTO Matches (LostItemID, FoundItemID, MatchDate, Status) VALUES \n"
+    values = []
+    for i in range(NUM_MATCHES):
+        lost_id = random.randint(1, NUM_ITEMS)
+        found_id = random.randint(1, NUM_ITEMS)
+        if lost_id == found_id: found_id = (found_id % NUM_ITEMS) + 1
+        date = get_random_date()
+        status = random.choice(['Pending', 'Confirmed', 'Rejected'])
+        values.append(f"({lost_id}, {found_id}, '{date}', '{status}')")
+    return sql + ",\n".join(values) + ";"
+
+def generate_comments_sql():
+    sql = "INSERT INTO Comments (ItemID, UserID, CommentText, CommentDate) VALUES \n"
+    values = []
+    comments_list = ["Is this still available?", "I found something similar", "Please contact me", "Can you provide more details?", "I lost this too!"]
+    for i in range(NUM_COMMENTS):
+        item_id = random.randint(1, NUM_ITEMS)
+        user_id = random.randint(1, NUM_USERS)
+        text = random.choice(comments_list)
+        date = get_random_date()
+        values.append(f"({item_id}, {user_id}, {escape_sql(text)}, '{date}')")
+    return sql + ",\n".join(values) + ";"
+
+def generate_alerts_sql():
+    sql = "INSERT INTO Alerts (ItemID, UserID, AlertDate, AlertType, Message, IsRead) VALUES \n"
+    values = []
+    for i in range(NUM_ALERTS):
+        item_id = random.randint(1, NUM_ITEMS)
+        user_id = random.randint(1, NUM_USERS)
+        date = get_random_date()
+        atype = random.choice(['Match Found', 'Status Update', 'New Comment'])
+        msg = f"Alert regarding item {item_id}"
+        is_read = random.randint(0, 1)
+        values.append(f"({item_id}, {user_id}, '{date}', '{atype}', '{msg}', {is_read})")
+    return sql + ",\n".join(values) + ";"
+
+def generate_activity_logs_sql():
+    sql = "INSERT INTO UserActivityLogs (UserID, ActionType, ActionDate, Description) VALUES \n"
+    values = []
+    for i in range(NUM_LOGS):
+        user_id = random.randint(1, NUM_USERS)
+        date = get_random_date()
+        action = random.choice(['Login', 'Logout', 'Report Item', 'Search Item'])
+        desc = "User performed an action"
+        values.append(f"({user_id}, '{action}', '{date}', '{desc}')")
+    return sql + ",\n".join(values) + ";"
+
 
 # --- Main Execution ---
 with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
@@ -440,6 +456,10 @@ with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
     f.write(generate_items_sql() + "\n")
     f.write(generate_tags_sql() + "\n")
     f.write(generate_reports_sql() + "\n")
+    f.write(generate_matches_sql() + "\n")
+    f.write(generate_comments_sql() + "\n")
+    f.write(generate_alerts_sql() + "\n")
+    f.write(generate_activity_logs_sql() + "\n")
     f.write(generate_notification_settings_sql() + "\n")
     f.write(LOGIC_SQL + "\n")
     f.write("SET FOREIGN_KEY_CHECKS = 1;\n")
